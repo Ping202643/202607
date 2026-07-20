@@ -789,8 +789,8 @@ var DATA = [
   T(72,8,"纯碱和烧碱是同一种物质。",false,"纯碱是 Na₂CO₃，烧碱是 NaOH，两者不同。")
 ];
 
-var TOTAL_ROUNDS = 50;
-var MAX_WRONG = 20;
+var TOTAL_ROUNDS = 72;
+var MAX_WRONG = Math.ceil(TOTAL_ROUNDS * 0.4);
 
 /* ---------------- helpers ---------------- */
 function shuffle(arr){
@@ -1344,11 +1344,11 @@ function StartScreen(props){
   return h("div", {className:"pixel-panel start-panel"},
     h("h1", null, "化学对战", h("br"), "PIXEL QUIZ ARENA"),
     h("div", {className:"start-rules"},
-      "· 随机抽取 50 道化学知识点题目组成本场对战", h("br"),
+      "· 涵盖全部 72 个知识点，顺序随机打乱组成本场对战", h("br"),
       "· 答对一题 → ", h("b",null,"炎焰兽"), " 攻击对方一次", h("br"),
       "· 答错一题 → ", h("b",null,"寒冰兽"), " 反击你一次", h("br"),
       "· 连续答对可蓄满必杀槽，触发", h("b",null,"暴击"), h("br"),
-      "· 累计答错满 ", h("b",null,"20"), " 题，本场战斗失败"
+      "· 累计答错满 ", h("b",null,"29"), " 题（答错率达40%），本场战斗失败"
     ),
     h("button", {className:"pixel-btn", type:"button", onClick:props.onStart}, "开始对战 ▶")
   );
