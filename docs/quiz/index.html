@@ -1,0 +1,1028 @@
+<title>化学默写题库 · 8天打卡</title>
+<style>
+  :root{
+    --bg-deep:#060A14;
+    --bg:#0A0F1C;
+    --surface:#0E1526;
+    --surface-2:#152140;
+    --ink:#F2F5FC;
+    --ink-muted:#8C9BC0;
+    --border:#212C48;
+    --accent:#5B8CFF;
+    --accent-strong:#7FA4FF;
+    --accent-ink:#04081A;
+    --accent-glow:rgba(91,140,255,.28);
+    --warn:#FFB454;
+    --good:#4FD8B0;
+    --bad:#FF6F61;
+    --bad-bg:rgba(255,111,97,.14);
+    --good-bg:rgba(79,216,176,.14);
+    --ring-track:#212C48;
+    --font-cjk:"PingFang SC","Microsoft YaHei","Noto Sans SC","Heiti SC",sans-serif;
+    --font-mono:ui-monospace,"SF Mono","Cascadia Code",Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 460px at 50% -140px, var(--accent-glow), transparent 62%),
+      radial-gradient(700px 320px at 88% 120px, rgba(79,216,176,.10), transparent 65%),
+      var(--bg-deep);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:var(--font-cjk);
+    line-height:1.55;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:32px 20px 80px;
+  }
+  header.top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:20px;
+  }
+  .brand-eyebrow{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.14em;
+    color:var(--accent-strong);
+    text-transform:uppercase;
+    margin:0 0 6px;
+    font-weight:600;
+  }
+  h1{
+    margin:0;
+    font-size:26px;
+    font-weight:800;
+    letter-spacing:-.01em;
+    text-wrap:balance;
+  }
+  .reset-link{
+    background:none;
+    border:none;
+    color:var(--ink-muted);
+    font-size:13px;
+    cursor:pointer;
+    text-decoration:underline;
+    text-underline-offset:3px;
+    padding:4px;
+    font-family:var(--font-cjk);
+  }
+  .reset-link:hover{color:var(--bad);}
+
+  .ring-wrap{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-shrink:0;
+  }
+  #ring{display:block;}
+  .ring-label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--ink-muted);
+    line-height:1.3;
+  }
+  .ring-label b{
+    display:block;
+    font-size:15px;
+    color:var(--ink);
+    font-weight:700;
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    margin-bottom:20px;
+    border-bottom:1px solid var(--border);
+  }
+  .tab-btn{
+    padding:10px 2px;
+    margin-right:22px;
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    font-family:var(--font-cjk);
+    font-size:15px;
+    font-weight:700;
+    color:var(--ink-muted);
+    cursor:pointer;
+  }
+  .tab-btn[data-active="true"]{color:var(--ink);border-bottom-color:var(--accent);}
+  .tab-btn:hover{color:var(--ink);}
+  .tab-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  .session-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-muted);
+    margin-bottom:8px;
+    padding:0 2px;
+    gap:12px;
+  }
+  .progress-track{
+    height:4px;
+    background:var(--ring-track);
+    border-radius:2px;
+    margin-bottom:20px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--accent);
+    border-radius:2px;
+    transition:width .25s ease;
+  }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:28px 26px;
+    box-shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 24px 48px -28px rgba(0,0,0,.65);
+  }
+  .card-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .tag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:3px 9px;
+    border-radius:999px;
+    font-weight:700;
+  }
+  .tag.type-F{background:var(--good-bg);color:var(--good);}
+  .tag.type-M{background:color-mix(in srgb, var(--accent) 18%, transparent);color:var(--accent-strong);}
+  .tag.type-T{background:var(--surface-2);color:var(--ink-muted);}
+  .day-tag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--ink-muted);
+  }
+  .q-text{
+    font-size:18px;
+    font-weight:600;
+    line-height:1.7;
+    text-wrap:balance;
+    margin:0 0 22px;
+  }
+
+  .blank-input{
+    font-family:var(--font-mono);
+    font-size:16px;
+    border:none;
+    border-bottom:2px solid var(--border);
+    background:transparent;
+    color:var(--ink);
+    padding:2px 4px;
+    min-width:64px;
+    width:auto;
+    text-align:center;
+    margin:0 2px;
+  }
+  .blank-input:focus{outline:none;border-color:var(--accent);}
+  .blank-input[data-state="correct"]{border-color:var(--good);color:var(--good);}
+  .blank-input[data-state="wrong"]{border-color:var(--bad);color:var(--bad);}
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:6px;
+  }
+  .opt{
+    text-align:left;
+    padding:13px 16px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink);
+    font-family:var(--font-cjk);
+    font-size:15px;
+    cursor:pointer;
+    display:flex;
+    gap:10px;
+    align-items:baseline;
+    transition:border-color .12s, background .12s;
+  }
+  .opt .idx{
+    font-family:var(--font-mono);
+    color:var(--ink-muted);
+    font-size:12px;
+    flex-shrink:0;
+  }
+  .opt:hover:not([disabled]){border-color:var(--accent);}
+  .opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .opt[data-mark="correct"]{border-color:var(--good);background:var(--good-bg);}
+  .opt[data-mark="wrong"]{border-color:var(--bad);background:var(--bad-bg);}
+  .opt[disabled]{cursor:default;}
+
+  .tf-row{display:flex;gap:12px;margin-bottom:6px;}
+  .tf-btn{
+    flex:1;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink);
+    font-family:var(--font-cjk);
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .tf-btn:hover:not([disabled]){border-color:var(--accent);}
+  .tf-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .tf-btn[data-mark="correct"]{border-color:var(--good);background:var(--good-bg);color:var(--good);}
+  .tf-btn[data-mark="wrong"]{border-color:var(--bad);background:var(--bad-bg);color:var(--bad);}
+
+  .actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:18px;
+  }
+  .btn{
+    font-family:var(--font-cjk);
+    font-size:14px;
+    font-weight:700;
+    padding:11px 20px;
+    border-radius:9px;
+    border:1px solid var(--accent);
+    background:var(--accent);
+    color:var(--accent-ink);
+    cursor:pointer;
+    box-shadow:0 8px 20px -8px var(--accent-glow);
+  }
+  .btn:hover{background:var(--accent-strong);border-color:var(--accent-strong);}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .btn[disabled]{opacity:.4;cursor:default;}
+  .btn.ghost{
+    background:transparent;
+    color:var(--ink-muted);
+    border-color:var(--border);
+  }
+  .btn.ghost:hover{border-color:var(--ink-muted);color:var(--ink);}
+
+  .feedback{
+    margin-top:16px;
+    padding:14px 16px;
+    border-radius:10px;
+    font-size:14px;
+    line-height:1.6;
+    display:none;
+  }
+  .feedback.show{display:block;}
+  .feedback.ok{background:var(--good-bg);color:var(--good);}
+  .feedback.no{background:var(--bad-bg);color:var(--bad);}
+  .feedback b{font-family:var(--font-mono);}
+
+  .stats-footer{
+    margin-top:22px;
+    display:flex;
+    justify-content:space-between;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-muted);
+    padding:0 2px;
+  }
+  .stats-footer span b{color:var(--ink);}
+
+  .summary-card{text-align:center;padding:52px 24px;}
+  .summary-card h2{font-size:20px;margin:0 0 8px;}
+  .summary-card p{color:var(--ink-muted);font-size:14px;margin:0;}
+  .summary-stats{display:flex;justify-content:center;gap:30px;margin:26px 0;font-family:var(--font-mono);}
+  .summary-stats div{text-align:center;}
+  .summary-stats div b{display:block;font-size:22px;color:var(--ink);}
+  .summary-stats div span{font-size:11px;color:var(--ink-muted);}
+
+  .cov-summary{
+    display:flex;
+    gap:28px;
+    flex-wrap:wrap;
+    padding:18px 20px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--surface);
+    margin-bottom:20px;
+    font-family:var(--font-mono);
+  }
+  .cov-summary div b{display:block;font-size:20px;color:var(--ink);}
+  .cov-summary div span{font-size:11px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.05em;}
+
+  .cov-day{
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--surface);
+    margin-bottom:12px;
+    overflow:hidden;
+  }
+  .cov-day summary{
+    list-style:none;
+    cursor:pointer;
+    padding:14px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    font-weight:700;
+    font-size:14px;
+  }
+  .cov-day summary::-webkit-details-marker{display:none;}
+  .cov-day summary::before{
+    content:"›";
+    display:inline-block;
+    margin-right:8px;
+    color:var(--ink-muted);
+    transition:transform .15s;
+  }
+  .cov-day[open] summary::before{transform:rotate(90deg);}
+  .cov-day summary .meta{font-family:var(--font-mono);font-weight:400;font-size:12px;color:var(--ink-muted);}
+  .cov-list{padding:0 18px 14px;}
+  .cov-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:9px 0;
+    border-top:1px solid var(--border);
+    font-size:13px;
+  }
+  .cov-item:first-child{border-top:none;}
+  .badge{
+    font-family:var(--font-mono);
+    font-size:11px;
+    padding:3px 9px;
+    border-radius:999px;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .badge.untested{background:var(--surface-2);color:var(--ink-muted);}
+  .badge.due{background:color-mix(in srgb, var(--warn) 18%, transparent);color:var(--warn);}
+  .badge.scheduled{background:var(--good-bg);color:var(--good);}
+
+  .empty{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--ink-muted);
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="brand-eyebrow">8-DAY REVIEW · 初三化学</p>
+      <h1>化学默写题库</h1>
+    </div>
+    <div class="ring-wrap">
+      <canvas id="ring" width="56" height="56" style="width:56px;height:56px;"></canvas>
+      <div class="ring-label"><b id="ringPct">0%</b>今日进度<br><button class="reset-link" id="resetBtn" type="button">重置进度</button></div>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn" data-tab="practice" data-active="true" type="button">今日练习</button>
+    <button class="tab-btn" data-tab="coverage" data-active="false" type="button">知识点总览</button>
+  </div>
+
+  <div id="practicePanel">
+    <div class="session-meta">
+      <span id="sessionInfo">加载中…</span>
+      <span id="qCounter">0 / 0</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+    <div class="card" id="card"></div>
+
+    <div class="stats-footer">
+      <span>本次已答 <b id="statAnswered">0</b></span>
+      <span>正确 <b id="statCorrect">0</b></span>
+      <span>正确率 <b id="statRate">—</b></span>
+    </div>
+  </div>
+
+  <div id="coveragePanel" style="display:none;"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var DAYS = [
+  {n:1, weekday:"周一", topic:"空气成分与氧气性质"},
+  {n:2, weekday:"周二", topic:"制氧气 · 分子与原子"},
+  {n:3, weekday:"周三", topic:"微观粒子的特点"},
+  {n:4, weekday:"周四", topic:"常见元素化合价（一）"},
+  {n:5, weekday:"周五", topic:"常见元素化合价（二）"},
+  {n:6, weekday:"周一", topic:"常见原子团的化合价"},
+  {n:7, weekday:"周二", topic:"金属活动性顺序"},
+  {n:8, weekday:"周三", topic:"俗名与化学式"}
+];
+
+function F(id,day,text,blanks,show){return {id:id,day:day,type:"F",text:text,blanks:blanks,show:show};}
+function M(id,day,text,options,correct){return {id:id,day:day,type:"M",text:text,options:options,correct:correct};}
+function T(id,day,text,correct,explain){return {id:id,day:day,type:"T",text:text,correct:correct,explain:explain};}
+
+var DATA = [
+  F(1,1,"空气中含量最多的气体是⟦⟧，按体积计算约占⟦⟧。",[["氮气","n2","氮气(n2)","氮气（n2）"],["78%","78"]],"氮气(N₂) 78%"),
+  M(2,1,"空气中氧气按体积计算约占多少？",["0.03%","0.94%","21%","78%"],2),
+  F(3,1,"稀有气体中，氦的元素符号是⟦⟧，氖的元素符号是⟦⟧，氩的元素符号是⟦⟧。",[["he"],["ne"],["ar"]],"He、Ne、Ar"),
+  T(4,1,"稀有气体只包括氦、氖、氩三种。",false,"稀有气体还包括氙、氡，共五种常见稀有气体。"),
+  M(5,1,"下列关于氧气物理性质的描述，正确的是：",["无色有气味，密度比空气小","无色无味，密度比空气大，难溶于水","有颜色无气味，易溶于水","无色无味，密度比空气小，易溶于水"],1),
+  F(6,1,"氧气的两个重要用途是⟦⟧和⟦⟧。",[["供给呼吸","呼吸"],["支持燃烧","燃烧"]],"供给呼吸、支持燃烧"),
+  F(7,1,"混合物是由⟦⟧的物质混合而成的物质，组成混合物的各种成分⟦⟧。",[["两种或两种以上"],["保持着它们各自的性质","保持各自的性质"]],"两种或两种以上；保持着它们各自的性质"),
+  M(8,1,"下列不属于混合物特征的是：",["由多种物质组成","各成分保持原有性质","有固定的化学式","成分可以是气体、液体或固体"],2),
+
+  F(9,2,"空气污染指数（API）监测的三项主要指标是⟦⟧、⟦⟧、⟦⟧。",[["可吸入颗粒物","可吸入固体颗粒"],["二氧化硫"],["二氧化氮"]],"可吸入颗粒物、二氧化硫、二氧化氮"),
+  M(10,2,"工业上大量制取氧气采用的方法是：",["电解水","分离液态空气法","加热高锰酸钾","过氧化氢分解"],1),
+  F(11,2,"液氮的沸点是⟦⟧℃，液氧的沸点是⟦⟧℃，因此⟦⟧先从液态空气中蒸发出来。",[["-196"],["-183"],["氮气","液氮","n2"]],"-196℃ / -183℃，氮气先蒸发"),
+  T(12,2,"分离液态空气法制氧气，利用的是氮气和氧气沸点不同这一物理性质。",true,"液氮、液氧沸点不同，属于物理变化。"),
+  F(13,2,"水是由⟦⟧构成的，金属铜是由⟦⟧直接构成的。",[["水分子"],["铜原子"]],"水分子；铜原子"),
+  M(14,2,"分子是由什么直接构成的？",["原子","离子","电子","质子"],0),
+
+  F(15,3,"分子、原子等都属于⟦⟧粒子。",[["微观"]],"微观粒子"),
+  T(16,3,"微观粒子是静止不动的。",false,"微观粒子处于不停的运动之中。"),
+  M(17,3,"下列关于微观粒子的说法，错误的是：",["微观粒子之间有间隙","微观粒子很小很小，肉眼看不见","微观粒子处于静止状态","分子、原子都是微观粒子"],2),
+  F(18,3,"微观粒子之间存在⟦⟧。",[["间隙","空隙"]],"间隙"),
+
+  F(19,4,"钾（K）的常见化合价是⟦⟧。",[["+1"]],"+1"),
+  F(20,4,"钠（Na）的常见化合价是⟦⟧。",[["+1"]],"+1"),
+  M(21,4,"银（Ag）的常见化合价是：",["+1","+2","+3","-1"],0),
+  F(22,4,"钙（Ca）的常见化合价是⟦⟧。",[["+2"]],"+2"),
+  F(23,4,"锌（Zn）的常见化合价是⟦⟧。",[["+2"]],"+2"),
+  M(24,4,"镁（Mg）的常见化合价是：",["+1","+2","+3","+4"],1),
+  F(25,4,"钡（Ba）的常见化合价是⟦⟧。",[["+2"]],"+2"),
+  F(26,4,"铜（Cu）的常见化合价是⟦⟧。",[["+2"]],"+2"),
+  M(27,4,"铝（Al）的常见化合价是：",["+1","+2","+3","+4"],2),
+  F(28,4,"铁（Fe）的常见化合价有⟦⟧和⟦⟧两种。",[["+2"],["+3"]],"+2、+3"),
+  M(29,4,"锰（Mn）的常见化合价是：",["+2、+3","+1、+7","+4、+7","+3、+5"],2),
+  T(30,4,"钾、钠、银的常见化合价都是+1。",true,"K、Na、Ag 三种元素的常见化合价均为 +1。"),
+
+  F(31,5,"氢（H）的常见化合价是⟦⟧。",[["+1"]],"+1"),
+  F(32,5,"氯（Cl）的常见化合价有⟦⟧和⟦⟧。",[["-1"],["+7"]],"-1、+7"),
+  M(33,5,"溴（Br）的常见化合价是：",["-1","-2","+1","+3"],0),
+  F(34,5,"碘（I）的常见化合价是⟦⟧。",[["-1"]],"-1"),
+  F(35,5,"氧（O）的常见化合价是⟦⟧。",[["-2"]],"-2"),
+  M(36,5,"硫（S）的常见化合价是：",["-2、+4、+6","-1、+7","+2、+4","-3、+5"],0),
+  F(37,5,"碳（C）的常见化合价有⟦⟧和⟦⟧。",[["+2"],["+4"]],"+2、+4"),
+  M(38,5,"硅（Si）的常见化合价是：",["+2","-4","+4","+3"],2),
+  F(39,5,"氮（N）的常见化合价有⟦⟧和⟦⟧。",[["-3"],["+5"]],"-3、+5"),
+  M(40,5,"磷（P）的常见化合价是：",["+3、+5","-3、+5","+2、+4","-1、+7"],0),
+  T(41,5,"表中氧元素只列出了一种化合价 -2。",true,"常见元素化合价表中氧只标注了 -2。"),
+
+  F(42,6,"氢氧根（OH）原子团的化合价是⟦⟧。",[["-1"]],"-1"),
+  M(43,6,"硝酸根（NO₃）的化合价是：",["-1","-2","+1","-3"],0),
+  F(44,6,"硫酸根（SO₄）的化合价是⟦⟧。",[["-2"]],"-2"),
+  F(45,6,"碳酸根（CO₃）的化合价是⟦⟧。",[["-2"]],"-2"),
+  M(46,6,"铵根（NH₄）的化合价是：",["+1","-1","+2","-2"],0),
+  T(47,6,"硫酸根和碳酸根的化合价都是 -2。",true,"SO₄ 与 CO₃ 的化合价均为 -2。"),
+
+  F(48,7,"金属活动性顺序表中，排在第一位、活动性最强的金属是⟦⟧。",[["钾","k"]],"钾（K）"),
+  F(49,7,"金属活动性顺序中，氢（H）前面紧邻的金属是⟦⟧。",[["铅","pb"]],"铅（Pb）"),
+  M(50,7,"下列金属中，活动性最强的是：",["铜","锌","铁","钾"],3),
+  F(51,7,"金属活动性顺序按由强到弱排列：钾、⟦⟧、钠、镁、铝、锌、铁、锡、铅、氢、铜、汞、银、铂、⟦⟧。",[["钙","ca"],["金","au"]],"钙 … 金"),
+  T(52,7,"金属活动性顺序中，银排在铜的前面，活动性比铜强。",false,"银排在铜之后，活动性比铜弱。"),
+  M(53,7,"金属活动性顺序中，位于氢后面（活动性比氢弱）的一组金属是：",["铜、汞、银、铂、金","锌、铁、锡、铅","钾、钙、钠","镁、铝、锌"],0),
+
+  F(54,8,"金刚石的化学式为⟦⟧。",[["c"]],"C"),
+  F(55,8,"石墨的化学式为⟦⟧。",[["c"]],"C"),
+  T(56,8,"金刚石和石墨的化学式相同，都是 C。",true,"两者都是碳单质，化学式均为 C，只是结构不同。"),
+  F(57,8,"汞俗称⟦⟧，化学式为⟦⟧。",[["水银"],["hg"]],"水银 / Hg"),
+  F(58,8,"氧化钙俗称⟦⟧，化学式为⟦⟧。",[["生石灰"],["cao"]],"生石灰 / CaO"),
+  M(59,8,"干冰是下列哪种物质的固态形式？",["CO2","H2O","O2","N2"],0),
+  F(60,8,"固体二氧化碳俗称干冰，化学式为⟦⟧。",[["co2"]],"CO₂"),
+  F(61,8,"熟石灰（消石灰）的化学式为⟦⟧。",[["ca(oh)2","caoh2"]],"Ca(OH)₂"),
+  M(62,8,"烧碱、火碱、苛性钠指的是下列哪种物质？",["NaOH","Na2CO3","NaHCO3","CaO"],0),
+  F(63,8,"氢氧化钠俗称烧碱、火碱、苛性钠，化学式为⟦⟧。",[["naoh"]],"NaOH"),
+  F(64,8,"碳酸钠俗称纯碱、苏打，化学式为⟦⟧。",[["na2co3"]],"Na₂CO₃"),
+  M(65,8,"盐酸（氢氯酸）的化学式是：",["HCl","H2SO4","HNO3","H2CO3"],0),
+  F(66,8,"碳酸钠晶体俗称石碱，化学式为⟦⟧。",[["na2co3·10h2o","na2co3.10h2o","na2co310h2o"]],"Na₂CO₃·10H₂O"),
+  F(67,8,"碳酸氢钠俗称小苏打，化学式为⟦⟧。",[["nahco3"]],"NaHCO₃"),
+  M(68,8,"胆矾（蓝矾）是下列哪种物质的晶体？",["CuSO4·5H2O","CaO","NaOH","Na2CO3"],0),
+  F(69,8,"硫酸铜晶体俗称胆矾、蓝矾，化学式为⟦⟧。",[["cuso4·5h2o","cuso4.5h2o","cuso45h2o"]],"CuSO₄·5H₂O"),
+  F(70,8,"乙醇俗称酒精，化学式为⟦⟧。",[["c2h5oh"]],"C₂H₅OH"),
+  M(71,8,"冰醋酸（醋酸）的化学式是：",["CH3COOH","C2H5OH","HCl","CO2"],0),
+  T(72,8,"纯碱和烧碱是同一种物质。",false,"纯碱是 Na₂CO₃，烧碱是 NaOH，两者不同。")
+];
+
+var LABELS = [
+  "氮气的体积分数","氧气的体积分数","氦氖氩的元素符号","稀有气体的种类","氧气的物理性质",
+  "氧气的两大用途","混合物的定义","混合物的特征","API监测的三项指标","工业制氧气的方法",
+  "液氮液氧沸点与制氧原理","分离液态空气法的原理","分子/原子直接构成物质","分子由原子构成","微观粒子的概念",
+  "微观粒子在不断运动","微观粒子说法辨析","微观粒子间有间隙","钾的化合价","钠的化合价",
+  "银的化合价","钙的化合价","锌的化合价","镁的化合价","钡的化合价",
+  "铜的化合价","铝的化合价","铁的化合价","锰的化合价","常见+1价金属辨析",
+  "氢的化合价","氯的化合价","溴的化合价","碘的化合价","氧的化合价",
+  "硫的化合价","碳的化合价","硅的化合价","氮的化合价","磷的化合价",
+  "氧化合价辨析","氢氧根的化合价","硝酸根的化合价","硫酸根的化合价","碳酸根的化合价",
+  "铵根的化合价","硫酸根碳酸根辨析","金属活动性最强的金属","氢前面的金属","金属活动性强弱比较",
+  "金属活动性顺序表默写","银铜活动性比较","氢后面的金属组","金刚石的化学式","石墨的化学式",
+  "金刚石石墨化学式辨析","汞的俗名与化学式","氧化钙的俗名与化学式","干冰的物质判断","干冰的化学式",
+  "熟石灰的化学式","烧碱的物质判断","氢氧化钠的化学式","碳酸钠的化学式","盐酸的化学式",
+  "石碱（碳酸钠晶体）的化学式","小苏打的化学式","胆矾的物质判断","硫酸铜晶体的化学式","乙醇的化学式",
+  "冰醋酸的化学式","纯碱烧碱辨析"
+];
+DATA.forEach(function(q,i){ q.label = LABELS[i]; });
+
+var TOTAL = DATA.length;
+var DAILY_TARGET = 30;
+var INTERVALS = [1,2,4,7,15,30];
+var STATS_KEY = "chem8day_stats_v2";
+var SESSION_KEY = "chem8day_session_v2";
+
+var stats = loadJSON(STATS_KEY, {});
+var state = {
+  queue: [],
+  pos: 0,
+  sessionAnswered: 0,
+  sessionCorrect: 0,
+  answered: false,
+  dueCount:0, newCount:0, fillCount:0, extraCount:0
+};
+
+function loadJSON(key, fallback){
+  try{ var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }catch(e){ return fallback; }
+}
+function saveJSON(key, val){
+  try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){}
+}
+function saveStats(){ saveJSON(STATS_KEY, stats); }
+function saveSession(){
+  saveJSON(SESSION_KEY, {
+    date: todayStr(),
+    queueIds: state.queue,
+    pos: state.pos,
+    sessionAnswered: state.sessionAnswered,
+    sessionCorrect: state.sessionCorrect,
+    dueCount: state.dueCount,
+    newCount: state.newCount,
+    fillCount: state.fillCount,
+    extraCount: state.extraCount
+  });
+}
+
+function pad2(n){ return n<10 ? "0"+n : ""+n; }
+function todayStr(){
+  var d = new Date();
+  return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate());
+}
+function addDays(dateStr, n){
+  var p = dateStr.split("-").map(Number);
+  var d = new Date(p[0], p[1]-1, p[2]);
+  d.setDate(d.getDate()+n);
+  return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate());
+}
+function fmtDate(d){
+  if(!d) return "";
+  var p = d.split("-");
+  return p[1]+"/"+p[2];
+}
+
+var SUB_DIGITS = "₀₁₂₃₄₅₆₇₈₉";
+var SUP_DIGITS = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+function normalize(s){
+  s = String(s).trim().toLowerCase();
+  s = s.replace(/[₀₁₂₃₄₅₆₇₈₉]/g, function(c){ return String(SUB_DIGITS.indexOf(c)); });
+  s = s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g, function(c){ return String(SUP_DIGITS.indexOf(c)); });
+  s = s.replace(/[０-９]/g, function(c){ return String.fromCharCode(c.charCodeAt(0)-0xFEE0); });
+  s = s.replace(/\s+/g,"");
+  s = s.replace(/[·•∙]/g,"·");
+  s = s.replace(/（/g,"(").replace(/）/g,")");
+  s = s.replace(/[、，。；！？,.;!?]/g,"");
+  return s;
+}
+var FILLER_WORDS = /的|了|着|就是|各自|它们|那些|其中|大约|按照|以及|是|这|那/g;
+function coreChars(s){
+  var t = normalize(s).replace(FILLER_WORDS,"");
+  var seen = {}, out = [];
+  for(var i=0;i<t.length;i++){
+    if(!seen[t[i]]){ seen[t[i]]=true; out.push(t[i]); }
+  }
+  return out;
+}
+function fuzzyMatch(inputRaw, acceptRaw){
+  var inputNorm = normalize(inputRaw);
+  var acceptNorm = normalize(acceptRaw);
+  if(!inputNorm) return false;
+  if(inputNorm === acceptNorm) return true;
+  if(acceptNorm.length < 4) return false;
+  var core = coreChars(acceptRaw);
+  if(core.length < 3) return false;
+  var hit = core.filter(function(c){ return inputNorm.indexOf(c) !== -1; }).length;
+  return (hit/core.length) >= 0.7;
+}
+function shuffle(arr){
+  var a = arr.slice();
+  for(var i=a.length-1;i>0;i--){
+    var j = Math.floor(Math.random()*(i+1));
+    var t=a[i]; a[i]=a[j]; a[j]=t;
+  }
+  return a;
+}
+function escapeHtml(s){
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+function getCss(name){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function coverageStatus(id){
+  var s = stats[id];
+  if(!s || !s.attempts) return "untested";
+  var today = todayStr();
+  if(s.due && s.due <= today) return "due";
+  return "scheduled";
+}
+
+function recordResult(id, correct){
+  var s = stats[id] || {attempts:0, correct:0, lastCorrect:false, stage:-1, due:null};
+  s.attempts++;
+  if(correct) s.correct++;
+  s.lastCorrect = correct;
+  if(correct){
+    s.stage = (s.stage==null || s.stage<0) ? 0 : Math.min(s.stage+1, INTERVALS.length-1);
+  } else {
+    s.stage = 0;
+  }
+  s.due = addDays(todayStr(), INTERVALS[s.stage]);
+  stats[id] = s;
+  saveStats();
+}
+
+function buildDailySession(){
+  var today = todayStr();
+  var due = [], freshNew = [], later = [];
+  DATA.forEach(function(q){
+    var s = stats[q.id];
+    if(!s || !s.attempts){ freshNew.push(q.id); }
+    else if(s.due && s.due <= today){ due.push({id:q.id, due:s.due}); }
+    else { later.push({id:q.id, due:s.due||"9999-12-31"}); }
+  });
+  due.sort(function(a,b){ return a.due < b.due ? -1 : 1; });
+  var dueIds = due.map(function(x){return x.id;});
+
+  var dueCount = dueIds.length;
+  var newCount, fillCount = 0;
+  var ids;
+  if(dueCount >= DAILY_TARGET){
+    ids = dueIds.slice(0, DAILY_TARGET);
+    newCount = 0;
+  } else {
+    var remain = DAILY_TARGET - dueCount;
+    var takenNew = freshNew.slice(0, remain);
+    newCount = takenNew.length;
+    ids = dueIds.concat(takenNew);
+    if(ids.length < DAILY_TARGET){
+      later.sort(function(a,b){ return a.due < b.due ? -1 : 1; });
+      var need = DAILY_TARGET - ids.length;
+      var fill = later.slice(0, need).map(function(x){return x.id;});
+      fillCount = fill.length;
+      ids = ids.concat(fill);
+    }
+  }
+  return { ids: shuffle(ids), dueCount: dueCount<DAILY_TARGET?dueCount:ids.length, newCount: newCount, fillCount: fillCount };
+}
+
+function initSession(){
+  var saved = loadJSON(SESSION_KEY, null);
+  if(saved && saved.date === todayStr() && saved.queueIds && saved.queueIds.length){
+    state.queue = saved.queueIds;
+    state.pos = saved.pos;
+    state.sessionAnswered = saved.sessionAnswered;
+    state.sessionCorrect = saved.sessionCorrect;
+    state.dueCount = saved.dueCount;
+    state.newCount = saved.newCount;
+    state.fillCount = saved.fillCount;
+    state.extraCount = saved.extraCount || 0;
+  } else {
+    var built = buildDailySession();
+    state.queue = built.ids;
+    state.pos = 0;
+    state.sessionAnswered = 0;
+    state.sessionCorrect = 0;
+    state.dueCount = built.dueCount;
+    state.newCount = built.newCount;
+    state.fillCount = built.fillCount;
+    state.extraCount = 0;
+    saveSession();
+  }
+}
+
+function currentQ(){
+  return DATA.filter(function(q){return q.id === state.queue[state.pos];})[0];
+}
+
+function renderSessionInfo(){
+  var parts = [];
+  if(state.dueCount) parts.push("复习 "+state.dueCount);
+  if(state.newCount) parts.push("新题 "+state.newCount);
+  if(state.fillCount) parts.push("提前复习 "+state.fillCount);
+  if(state.extraCount) parts.push("加练 "+state.extraCount);
+  var breakdown = parts.length ? "（"+parts.join(" · ")+"）" : "";
+  document.getElementById("sessionInfo").textContent = "今日任务：共 "+state.queue.length+" 题"+breakdown;
+}
+
+function renderRing(){
+  var m = state.queue.length ? Math.min(state.pos, state.queue.length)/state.queue.length : 0;
+  var canvas = document.getElementById("ring");
+  var dpr = window.devicePixelRatio || 1;
+  var size = 56;
+  canvas.width = size*dpr; canvas.height = size*dpr;
+  var ctx = canvas.getContext("2d");
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,size,size);
+  var cx=size/2, cy=size/2, r=size/2-5;
+  ctx.lineWidth=6; ctx.lineCap="round";
+  ctx.strokeStyle = getCss("--ring-track");
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke();
+  ctx.strokeStyle = getCss("--accent");
+  ctx.beginPath();
+  ctx.arc(cx,cy,r,-Math.PI/2, -Math.PI/2 + Math.PI*2*m);
+  ctx.stroke();
+  document.getElementById("ringPct").textContent = Math.round(m*100)+"%";
+}
+
+function renderQuestion(){
+  var card = document.getElementById("card");
+  document.getElementById("qCounter").textContent = Math.min(state.pos+1, state.queue.length)+" / "+state.queue.length;
+  document.getElementById("progressFill").style.width = (state.queue.length ? Math.round(state.pos/state.queue.length*100) : 0)+"%";
+  renderSessionInfo();
+
+  if(state.queue.length === 0){
+    card.innerHTML = '<div class="empty">题库暂无可用题目</div>';
+    return;
+  }
+  if(state.pos >= state.queue.length){
+    renderSummary();
+    return;
+  }
+
+  var q = currentQ();
+  state.answered = false;
+  var typeLabel = {F:"填空",M:"选择",T:"判断"}[q.type];
+  var dayInfo = DAYS.filter(function(d){return d.n===q.day;})[0];
+
+  var body = "";
+  if(q.type==="F"){
+    var parts = q.text.split("⟦⟧");
+    var html = "";
+    for(var i=0;i<parts.length;i++){
+      html += escapeHtml(parts[i]);
+      if(i < parts.length-1){
+        html += '<input class="blank-input" type="text" data-blank="'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false" style="width:'+Math.max(56, q.blanks[i][0].length*14)+'px">';
+      }
+    }
+    body = '<p class="q-text">'+html+'</p>'
+      + '<div class="actions"><button class="btn" id="submitBtn" type="button">提交答案</button></div>';
+  } else if(q.type==="M"){
+    var opts = q.options.map(function(opt,i){
+      return '<button type="button" class="opt" data-i="'+i+'"><span class="idx">'+String.fromCharCode(65+i)+'</span><span>'+escapeHtml(opt)+'</span></button>';
+    }).join("");
+    body = '<p class="q-text">'+escapeHtml(q.text)+'</p><div class="options">'+opts+'</div>';
+  } else if(q.type==="T"){
+    body = '<p class="q-text">'+escapeHtml(q.text)+'</p>'
+      + '<div class="tf-row">'
+      + '<button type="button" class="tf-btn" data-v="true">正确</button>'
+      + '<button type="button" class="tf-btn" data-v="false">错误</button>'
+      + '</div>';
+  }
+
+  card.innerHTML =
+    '<div class="card-top">'
+      + '<span class="tag type-'+q.type+'">'+typeLabel+'</span>'
+      + '<span class="day-tag">'+dayInfo.weekday+' · 第'+q.day+'天 · '+escapeHtml(q.label)+'</span>'
+    + '</div>'
+    + body
+    + '<div class="feedback" id="feedback"></div>';
+
+  wireQuestion(q);
+}
+
+function wireQuestion(q){
+  if(q.type==="F"){
+    var btn = document.getElementById("submitBtn");
+    var inputs = Array.prototype.slice.call(document.querySelectorAll(".blank-input"));
+    function submit(){
+      if(state.answered) return;
+      var allOk = true;
+      inputs.forEach(function(inp){
+        var idx = Number(inp.getAttribute("data-blank"));
+        var val = normalize(inp.value);
+        var ok = q.blanks[idx].some(function(a){return normalize(a)===val;})
+          || q.blanks[idx].some(function(a){return fuzzyMatch(inp.value, a);});
+        inp.setAttribute("data-state", ok ? "correct" : "wrong");
+        inp.disabled = true;
+        if(!ok) allOk = false;
+      });
+      finishAnswer(q, allOk, "正确答案：<b>"+q.show+"</b>");
+      btn.disabled = true;
+    }
+    btn.addEventListener("click", submit);
+    inputs.forEach(function(inp, i){
+      inp.addEventListener("keydown", function(e){
+        if(e.key==="Enter"){
+          if(i < inputs.length-1) inputs[i+1].focus();
+          else submit();
+        }
+      });
+    });
+    if(inputs[0]) inputs[0].focus();
+  } else if(q.type==="M"){
+    var opts = document.querySelectorAll(".opt");
+    opts.forEach(function(el){
+      el.addEventListener("click", function(){
+        if(state.answered) return;
+        var i = Number(el.getAttribute("data-i"));
+        var ok = i === q.correct;
+        opts.forEach(function(o,oi){
+          o.disabled = true;
+          if(oi===q.correct) o.setAttribute("data-mark","correct");
+          else if(oi===i) o.setAttribute("data-mark","wrong");
+        });
+        finishAnswer(q, ok, "正确答案：<b>"+String.fromCharCode(65+q.correct)+". "+escapeHtml(q.options[q.correct])+"</b>");
+      });
+    });
+  } else if(q.type==="T"){
+    var btns = document.querySelectorAll(".tf-btn");
+    btns.forEach(function(el){
+      el.addEventListener("click", function(){
+        if(state.answered) return;
+        var v = el.getAttribute("data-v")==="true";
+        var ok = v === q.correct;
+        btns.forEach(function(b){
+          b.disabled = true;
+          var bv = b.getAttribute("data-v")==="true";
+          if(bv === q.correct) b.setAttribute("data-mark","correct");
+          else if(bv === v) b.setAttribute("data-mark","wrong");
+        });
+        finishAnswer(q, ok, q.explain);
+      });
+    });
+  }
+}
+
+function finishAnswer(q, ok, message){
+  state.answered = true;
+  recordResult(q.id, ok);
+  state.sessionAnswered++;
+  if(ok) state.sessionCorrect++;
+
+  var fb = document.getElementById("feedback");
+  fb.className = "feedback show " + (ok ? "ok" : "no");
+  fb.innerHTML = (ok ? "✓ 回答正确。" : "✗ 回答错误，明天会再次出现复习。") + " " + message;
+
+  var actions = document.createElement("div");
+  actions.className = "actions";
+  actions.style.marginTop = "14px";
+  actions.innerHTML = '<button class="btn ghost" id="againBtn" type="button">该题再练一次</button><button class="btn" id="nextBtn" type="button">下一题</button>';
+  document.getElementById("card").appendChild(actions);
+  document.getElementById("nextBtn").addEventListener("click", nextQuestion);
+  document.getElementById("againBtn").addEventListener("click", function(){
+    state.queue.splice(state.pos+1, 0, q.id);
+    nextQuestion();
+  });
+
+  renderRing();
+  renderSessionStats();
+  saveSession();
+}
+
+function nextQuestion(){
+  state.pos++;
+  saveSession();
+  renderQuestion();
+  renderRing();
+}
+
+function renderSummary(){
+  var card = document.getElementById("card");
+  var rate = state.sessionAnswered ? Math.round(state.sessionCorrect/state.sessionAnswered*100) : 0;
+  card.innerHTML =
+    '<div class="summary-card">'
+      + '<h2>今日任务已完成</h2>'
+      + '<p>做错的题目明天会自动出现；已掌握的题目会按记忆曲线延后复习。</p>'
+      + '<div class="summary-stats">'
+        + '<div><b>'+state.sessionAnswered+'</b><span>已完成</span></div>'
+        + '<div><b>'+state.sessionCorrect+'</b><span>答对</span></div>'
+        + '<div><b>'+rate+'%</b><span>正确率</span></div>'
+      + '</div>'
+      + '<button class="btn ghost" id="extendBtn" type="button">今天再多做几题</button>'
+    + '</div>';
+  var extendBtn = document.getElementById("extendBtn");
+  var used = {}; state.queue.forEach(function(id){ used[id]=true; });
+  var hasMore = DATA.some(function(q){ return !used[q.id]; });
+  if(!hasMore){
+    extendBtn.disabled = true;
+    extendBtn.textContent = "今日题库已全部练习";
+  } else {
+    extendBtn.addEventListener("click", extendSession);
+  }
+}
+
+function extendSession(){
+  var used = {}; state.queue.forEach(function(id){ used[id]=true; });
+  var today = todayStr();
+  var candidates = DATA.filter(function(q){ return !used[q.id]; }).map(function(q){
+    var s = stats[q.id];
+    return { id:q.id, isNew: !s || !s.attempts, due: (s&&s.due)?s.due:"9999-12-31" };
+  });
+  candidates.sort(function(a,b){
+    if(a.isNew !== b.isNew) return a.isNew ? -1 : 1;
+    return a.due < b.due ? -1 : 1;
+  });
+  var add = shuffle(candidates.slice(0,10).map(function(c){return c.id;}));
+  state.queue = state.queue.concat(add);
+  state.extraCount += add.length;
+  saveSession();
+  renderQuestion();
+  renderRing();
+}
+
+function renderSessionStats(){
+  document.getElementById("statAnswered").textContent = state.sessionAnswered;
+  document.getElementById("statCorrect").textContent = state.sessionCorrect;
+  document.getElementById("statRate").textContent = state.sessionAnswered
+    ? Math.round(state.sessionCorrect/state.sessionAnswered*100)+"%"
+    : "—";
+}
+
+function statBlock(val, label){
+  return '<div><b>'+val+'</b><span>'+label+'</span></div>';
+}
+
+function renderCoverage(){
+  var panel = document.getElementById("coveragePanel");
+  var testedCount = DATA.filter(function(q){ return stats[q.id] && stats[q.id].attempts; }).length;
+  var dueCount = DATA.filter(function(q){ return coverageStatus(q.id)==="due"; }).length;
+  var html = '<div class="cov-summary">'
+    + statBlock(testedCount, "已考查")
+    + statBlock(TOTAL-testedCount, "未考查")
+    + statBlock(Math.round(testedCount/TOTAL*100)+"%", "覆盖率")
+    + statBlock(dueCount, "今日待复习")
+    + '</div>';
+
+  DAYS.forEach(function(d){
+    var qs = DATA.filter(function(q){ return q.day===d.n; });
+    var tested = qs.filter(function(q){ return stats[q.id] && stats[q.id].attempts; }).length;
+    var items = qs.map(function(q){
+      var st = coverageStatus(q.id);
+      var label = st==="untested" ? "未测试" : st==="due" ? "待复习" : "已掌握 · "+fmtDate(stats[q.id].due)+" 复习";
+      return '<div class="cov-item"><span>'+escapeHtml(q.label)+'</span><span class="badge '+st+'">'+label+'</span></div>';
+    }).join("");
+    html += '<details class="cov-day">'
+      + '<summary><span>第'+d.n+'天 · '+d.topic+'</span><span class="meta">已考查 '+tested+' / '+qs.length+'</span></summary>'
+      + '<div class="cov-list">'+items+'</div>'
+      + '</details>';
+  });
+
+  panel.innerHTML = html;
+}
+
+document.querySelectorAll(".tab-btn").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    var tab = btn.getAttribute("data-tab");
+    document.querySelectorAll(".tab-btn").forEach(function(b){
+      b.setAttribute("data-active", b===btn ? "true" : "false");
+    });
+    document.getElementById("practicePanel").style.display = tab==="practice" ? "" : "none";
+    document.getElementById("coveragePanel").style.display = tab==="coverage" ? "" : "none";
+    if(tab==="coverage") renderCoverage();
+  });
+});
+
+document.getElementById("resetBtn").addEventListener("click", function(){
+  if(confirm("确定要清空全部练习进度吗？此操作不可恢复。")){
+    stats = {};
+    saveStats();
+    try{ localStorage.removeItem(SESSION_KEY); }catch(e){}
+    initSession();
+    renderRing();
+    renderSessionStats();
+    renderQuestion();
+    if(document.getElementById("coveragePanel").style.display !== "none") renderCoverage();
+  }
+});
+
+initSession();
+renderRing();
+renderSessionStats();
+renderQuestion();
+
+})();
+</script>
